@@ -25,7 +25,8 @@
  */
 terraform {
   backend "s3" {
-    bucket         = "coffee-shop-message"
+    bucket         = "dave-coffee-shop-message"
+    region         = "ap-southeast-2"
     key            = "tfstate"
     encrypt        = true
     dynamodb_table = "coffee-shop-message"
@@ -33,7 +34,7 @@ terraform {
 }
 
 resource "aws_s3_bucket" "state" {
-  bucket = "coffee-shop-message"
+  bucket = "dave-coffee-shop-message"
   acl    = "private"
 
   versioning {
@@ -78,6 +79,7 @@ resource "aws_dynamodb_table" "state" {
  */
 provider "aws" {
   version = "~> 1.14"
+  region  = "ap-southeast-2"
 }
 
 /**
