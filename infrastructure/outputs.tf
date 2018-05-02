@@ -26,10 +26,6 @@ output "api_invoke_url_prod" {
   value = "${aws_api_gateway_deployment.prod.invoke_url}${var.prod_stage_alias_name}/${var.rest_api_path}"
 }
 
-output "api_key" {
-  value = "${aws_api_gateway_api_key.default.value}"
-}
-
 output "access_key_id" {
   value = "${aws_iam_access_key.travis_user.id}"
 }

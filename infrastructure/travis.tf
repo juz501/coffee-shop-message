@@ -174,10 +174,7 @@ resource "aws_iam_policy" "read_only_resources" {
       "Action": "apigateway:GET",
       "Resource": [
         "arn:aws:apigateway:${data.aws_region.current.name}::/restapis/${aws_api_gateway_rest_api.api.id}",
-        "arn:aws:apigateway:${data.aws_region.current.name}::/restapis/${aws_api_gateway_rest_api.api.id}/*",
-        "arn:aws:apigateway:${data.aws_region.current.name}::/apikeys/${aws_api_gateway_api_key.default.id}",
-        "arn:aws:apigateway:${data.aws_region.current.name}::/usageplans/${aws_api_gateway_usage_plan.default.id}",
-        "arn:aws:apigateway:${data.aws_region.current.name}::/usageplans/${aws_api_gateway_usage_plan.default.id}/keys/${aws_api_gateway_api_key.default.id}"
+        "arn:aws:apigateway:${data.aws_region.current.name}::/restapis/${aws_api_gateway_rest_api.api.id}/*"
       ]
     },
     {

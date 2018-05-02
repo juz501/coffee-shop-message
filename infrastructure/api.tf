@@ -127,7 +127,7 @@ resource "aws_api_gateway_method" "method" {
   resource_id      = "${aws_api_gateway_resource.proxy_endpoint.id}"
   http_method      = "POST"
   authorization    = "NONE"
-  api_key_required = true
+  api_key_required = false
 }
 
 /**
@@ -186,45 +186,4 @@ resource "aws_api_gateway_method_response" "method_response" {
   response_models = {
     "application/json" = "Empty"
   }
-}
-
-/**
- * API key and usage plans.
- *
- * @see https://www.terraform.io/docs/providers/aws/r/api_gateway_api_key.html
- * @see https://www.terraform.io/docs/providers/aws/r/api_gateway_usage_plan.html
- * @see https://www.terraform.io/docs/providers/aws/r/api_gateway_usage_plan_key.html
- */
-resource "aws_api_gateway_api_key" "default" {
-  name = "coffee-shop-message-default"
-}
-
-resource "aws_api_gateway_usage_plan" "default" {
-  name = "coffee-shop-message-default"
-
-  api_stages {
-    api_id = "${aws_api_gateway_rest_api.api.id}"
-    stage  = "${var.dev_stage_alias_name}"
-  }
-
-  api_stages {
-    api_id = "${aws_api_gateway_rest_api.api.id}"
-    stage  = "${var.prod_stage_alias_name}"
-  }
-
-  quota_settings {
-    limit  = 20
-    period = "DAY"
-  }
-
-  throttle_settings {
-    burst_limit = 5
-    rate_limit  = 10
-  }
-}
-
-resource "aws_api_gateway_usage_plan_key" "default" {
-  key_id        = "${aws_api_gateway_api_key.default.id}"
-  key_type      = "API_KEY"
-  usage_plan_id = "${aws_api_gateway_usage_plan.default.id}"
 }
