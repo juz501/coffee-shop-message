@@ -23,9 +23,11 @@
  * @see https://www.terraform.io/docs/providers/aws/r/s3_bucket.html
  * @see https://www.terraform.io/docs/providers/aws/r/dynamodb_table.html
  */
+
+/**
 terraform {
   backend "s3" {
-    bucket         = "dave-coffee-shop-message"
+    bucket         = "julian-coffee-shop-message"
     region         = "ap-southeast-2"
     key            = "tfstate"
     encrypt        = true
@@ -34,7 +36,7 @@ terraform {
 }
 
 resource "aws_s3_bucket" "state" {
-  bucket = "dave-coffee-shop-message"
+  bucket = "julian-coffee-shop-message"
   acl    = "private"
 
   versioning {
@@ -69,6 +71,7 @@ resource "aws_dynamodb_table" "state" {
     prevent_destroy = true
   }
 }
+*/
 
 /**
  * AWS provider configuration, with version constraints.
@@ -78,8 +81,10 @@ resource "aws_dynamodb_table" "state" {
  * @see https://www.terraform.io/docs/configuration/providers.html#provider-versions
  */
 provider "aws" {
-  version = "~> 1.14"
-  region  = "ap-southeast-2"
+  version    = "~> 1.14"
+  region     = "ap-southeast-2"
+  access_key = "${var.aws_access_key}"
+  secret_key = "${var.aws_secret_key}"
 }
 
 /**

@@ -8,3 +8,4 @@ package-lock.json
 *.tfstate.*
 *.tfvars
 *.zip
+*DS_Store*

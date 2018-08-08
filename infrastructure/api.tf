@@ -49,28 +49,33 @@ resource "aws_api_gateway_stage" "prod" {
  * @see https://www.terraform.io/docs/provisioners/local-exec.html
  * @see https://www.terraform.io/docs/providers/aws/r/cloudwatch_log_group.html
  */
-resource "null_resource" "logging" {
-  depends_on = ["aws_cloudwatch_log_group.default"]
 
-  triggers {
-    log_group = "${aws_cloudwatch_log_group.default.arn}"
-  }
+/**
+ *  resource "null_resource" "logging" {
+ *    depends_on = ["aws_cloudwatch_log_group.default"]
+ *
+ *    triggers {
+ *      log_group = "${aws_cloudwatch_log_group.default.arn}"
+ *    }
+ *
+ *    provisioner "local-exec" {
+ *      command = "aws apigateway update-stage --rest-api-id ${aws_api_gateway_deployment.dev.rest_api_id} --stage-name ${var.dev_stage_alias_name} --patch-operations op=replace,path=/accessLogSettings/destinationArn,value=${replace(aws_cloudwatch_log_group.default.arn, ":*", "")}"
+ *    }
+ *
+ *    provisioner "local-exec" {
+ *      command = "aws apigateway update-stage --rest-api-id ${aws_api_gateway_deployment.dev.rest_api_id} --stage-name ${var.dev_stage_alias_name} --patch-operations 'op=replace,path=/accessLogSettings/format,value=${jsonencode("$context.identity.sourceIp $context.identity.caller $context.identity.user [$context.requestTime] \"$context.httpMethod $context.resourcePath $context.protocol\" $context.status $context.responseLength $context.requestId")}'"
+ *    }
+ *
+ *    provisioner "local-exec" {
+ *      when    = "destroy"
+ *      command = "aws apigateway update-stage --rest-api-id ${aws_api_gateway_deployment.dev.rest_api_id} --stage-name ${var.dev_stage_alias_name} --patch-operations op=remove,path=/accessLogSettings,value="
+ *    }
+ *  }
+ */
 
-  provisioner "local-exec" {
-    command = "aws apigateway update-stage --rest-api-id ${aws_api_gateway_deployment.dev.rest_api_id} --stage-name ${var.dev_stage_alias_name} --patch-operations op=replace,path=/accessLogSettings/destinationArn,value=${replace(aws_cloudwatch_log_group.default.arn, ":*", "")}"
-  }
-
-  provisioner "local-exec" {
-    command = "aws apigateway update-stage --rest-api-id ${aws_api_gateway_deployment.dev.rest_api_id} --stage-name ${var.dev_stage_alias_name} --patch-operations 'op=replace,path=/accessLogSettings/format,value=${jsonencode("$context.identity.sourceIp $context.identity.caller $context.identity.user [$context.requestTime] \"$context.httpMethod $context.resourcePath $context.protocol\" $context.status $context.responseLength $context.requestId")}'"
-  }
-
-  provisioner "local-exec" {
-    when    = "destroy"
-    command = "aws apigateway update-stage --rest-api-id ${aws_api_gateway_deployment.dev.rest_api_id} --stage-name ${var.dev_stage_alias_name} --patch-operations op=remove,path=/accessLogSettings,value="
-  }
-}
-
-resource "aws_cloudwatch_log_group" "default" {}
+/*
+ *  resource "aws_cloudwatch_log_group" "default" {}
+ */
 
 /**
  * Deployments to get each stage started.
