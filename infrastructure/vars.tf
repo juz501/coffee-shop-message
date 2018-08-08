@@ -77,3 +77,7 @@ variable "dev_stage_alias_name" {
 variable "prod_stage_alias_name" {
   default = "prod"
 }
+
+variable "aws_access_key" {}
+
+variable "aws_secret_key" {}

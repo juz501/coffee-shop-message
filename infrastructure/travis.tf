@@ -34,6 +34,7 @@ resource "aws_iam_user_policy_attachment" "lambda_deployment" {
   policy_arn = "${aws_iam_policy.lambda_deployment.arn}"
 }
 
+/*
 resource "aws_iam_user_policy_attachment" "read_only_state" {
   user       = "${aws_iam_user.travis_user.name}"
   policy_arn = "${aws_iam_policy.read_only_state.arn}"
@@ -43,6 +44,7 @@ resource "aws_iam_user_policy_attachment" "read_only_resources" {
   user       = "${aws_iam_user.travis_user.name}"
   policy_arn = "${aws_iam_policy.read_only_resources.arn}"
 }
+*/
 
 /**
  * As we'll be testing the function during the build, we'll need SNS publishing permissions.
@@ -120,6 +122,7 @@ EOF
  * @see https://www.terraform.io/docs/backends/types/s3.html
  * @see https://www.terraform.io/docs/providers/aws/r/iam_policy.html
  */
+/**
 resource "aws_iam_policy" "read_only_state" {
   policy = <<EOF
 {
@@ -142,6 +145,7 @@ resource "aws_iam_policy" "read_only_state" {
 }
 EOF
 }
+*/
 
 /**
  * Add permissions for read-only access to resources managed by Terraform.
@@ -153,7 +157,7 @@ EOF
 variable "iam_policy_name_read_only_resources" {
   default = "coffee_shop_message_read_only_resource_access"
 }
-
+/*
 resource "aws_iam_policy" "read_only_resources" {
   name = "${var.iam_policy_name_read_only_resources}"
 
@@ -176,15 +180,6 @@ resource "aws_iam_policy" "read_only_resources" {
         "arn:aws:apigateway:${data.aws_region.current.name}::/restapis/${aws_api_gateway_rest_api.api.id}",
         "arn:aws:apigateway:${data.aws_region.current.name}::/restapis/${aws_api_gateway_rest_api.api.id}/*"
       ]
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "dynamodb:DescribeTable",
-        "dynamodb:DescribeTimeToLive",
-        "dynamodb:ListTagsOfResource"
-      ],
-      "Resource": "${aws_dynamodb_table.state.arn}"
     },
     {
       "Effect": "Allow",
@@ -225,13 +220,9 @@ resource "aws_iam_policy" "read_only_resources" {
       "Effect": "Allow",
       "Action": "logs:DescribeLogGroups",
       "Resource": "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group::log-stream:"
-    },
-    {
-      "Effect": "Allow",
-      "Action": "logs:ListTagsLogGroup",
-      "Resource": "${aws_cloudwatch_log_group.default.arn}"
     }
   ]
 }
 EOF
 }
+*/
