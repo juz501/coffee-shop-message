@@ -12,68 +12,6 @@
  */
 
 /**
- * S3 + DynamoDB backend for managing and locking Terraform remote state.
- *
- * Because these resources are managed by Terraform, they need to be created before the remote
- * backend is utilised. Therefore, when running `terraform plan` for the first time, you'll need
- * to comment out the `terraform` object below and allow the default, local backend to be used at
- * first.
- *
- * @see https://www.terraform.io/docs/backends/types/s3.html
- * @see https://www.terraform.io/docs/providers/aws/r/s3_bucket.html
- * @see https://www.terraform.io/docs/providers/aws/r/dynamodb_table.html
- */
-
-/**
-terraform {
-  backend "s3" {
-    bucket         = "julian-coffee-shop-message"
-    region         = "ap-southeast-2"
-    key            = "tfstate"
-    encrypt        = true
-    dynamodb_table = "coffee-shop-message"
-  }
-}
-
-resource "aws_s3_bucket" "state" {
-  bucket = "julian-coffee-shop-message"
-  acl    = "private"
-
-  versioning {
-    enabled = true
-  }
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "aws:kms"
-      }
-    }
-  }
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "aws_dynamodb_table" "state" {
-  name           = "coffee-shop-message"
-  hash_key       = "LockID"
-  read_capacity  = 1
-  write_capacity = 1
-
-  attribute {
-    name = "LockID"
-    type = "S"
-  }
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-*/
-
-/**
  * AWS provider configuration, with version constraints.
  * Credentials are taken from the usual AWS authentication methods such as environment variables.
  *

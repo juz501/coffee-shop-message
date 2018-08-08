@@ -54,6 +54,9 @@ variable "rest_api_path" {
  * For example:
  * $ export TF_VAR_slack_hook_dev="TXXXXXXXX/BXXXXXXXX/xxxxxxxxxxxxxxxxxxxxxxxx"
  * $ export TF_VAR_slack_hook_prod="TXXXXXXXX/BXXXXXXXX/xxxxxxxxxxxxxxxxxxxxxxxx"
+ * 2nd example via terraform.tfvars:
+ * slack_hook_dev="TXXXXXXXX/BXXXXXXXX/xxxxxxxxxxxxxxxxxxxxxxxx"
+ * slack_hook_prod="TXXXXXXXX/BXXXXXXXX/xxxxxxxxxxxxxxxxxxxxxxxx"
  *
  * @see https://www.terraform.io/intro/getting-started/variables.html#assigning-variables
  */
