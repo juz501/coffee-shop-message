@@ -124,12 +124,3 @@ after_deploy:
       export MOST_RECENT=$(aws lambda list-versions-by-function --function "${LAMBDA_NAME}" --max-items 10000 | node -e "let stdin=''; process.stdin.on('data',(chunk)=>{stdin+=chunk}).on('end',()=>{console.log(JSON.parse(stdin).Versions.pop().Version)})");
       aws lambda update-alias --function-name "${LAMBDA_NAME}" --name "${LAMBDA_ALIAS}" --function-version "${MOST_RECENT}";
     fi;
-
-notifications:
-  email: false
-  webhooks:
-    urls: https://api.tm.id.au/dev/travis/jobStatus
-  slack:
-    on_start: always
-    rooms:
-      - secure: NIJMe7vHNS3JwNYW6YS/St5VgMWtaebI2AacQIuNCZFPVrs/mThhwwQe0hj31xC3BYq0LCAQLxnofO0HJKE9/p5f7uYBOWsFoMhhaw6B932dvFh2oKidDGTqirRaVp1XpbVGgC3/C+MkufcRAOwhqthu23H0JZkf42cqDw7ari8g9VPIKlWFtvOrNuGziNbDy2R9y0bNOmcvUJ0DVOqQMf72hT6VFQns8x4Bz9LYgAB+NZVVy/NOK+Ehr2RArPBbqhaVIDswi1IeCK94SFjur+OeVoxvsQYOAlM5CIC6ZF04FDaO+t9p30GtIccufjU6zSNRc618ozv/2NHE8XdoiAqAdE2IcLhdTwAGnbiFcCM/3V7UnasLAH+vsjwxQf+kSv1QgqunaGUq69vcK3fUZhgER08tZrDT/wsLNZ+0819+ujv3dwBM7pVzYioYPwHM/RyCHnrLLmie6zrSuwVCitmkAFC+dDK3Lz5Qg0iKRNIfpSBywjH3jOhhvOREVcgFVeGY2XeGU1ApB0Ug0A878Y/CdVE9fbgFVLCEKZGgOE1rMM2TFQBpF7r2vwY1HNEE2SC4PInSAKN592qhkygbrJVaDLPPoXph8DSAYBNPoddWnsMi8Nx+KgaPQeIiDsBVSbPFNWYfWuEY293KisNS6fHA6hI718dPaRoJeVwxwec=
